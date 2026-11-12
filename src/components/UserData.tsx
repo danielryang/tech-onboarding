@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiUrl, Service } from "@hex-labs/core";
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import axios from "axios";
 import UserCard from "./UserCard";
 import { Button } from "@chakra-ui/react";
@@ -101,9 +101,12 @@ const UserData: React.FC = () => {
 
   return (
     <>
-      <Text fontSize="4xl">Hexlabs Users</Text>
-      <Text fontSize="2xl">This is an example of a page that makes an API call to the Hexlabs API to get a list of users.</Text>
-      <Button onClick={sortUsers}>Sort Users</Button>
+      {/* px={10} matches the SimpleGrid's padding so the heading lines up with the cards */}
+      <Box px={10} pt={8}>
+        <Text fontSize="4xl" fontWeight="bold">Hexlabs Users</Text>
+        <Text fontSize="2xl" mt={2}>This is an example of a page that makes an API call to the Hexlabs API to get a list of users.</Text>
+        <Button mt={6} onClick={sortUsers}>Sort Users</Button>
+      </Box>
       <SimpleGrid columns={[2, 3, 5]} spacing={6} padding={10}>
 
         {/* Here we are mapping every entry in our users array to a unique UserCard component, each with the unique respective
