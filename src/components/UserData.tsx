@@ -73,6 +73,12 @@ const UserData: React.FC = () => {
   };
 
 
+  // Returns the hexathons a user has applied to. Passed down to each UserCard's modal.
+  const getAppliedHexathons = async (userId: string): Promise<any[]> => {
+    // TODO: fetch from the /hexathons and /applications endpoints
+    return [];
+  };
+
   return (
     <>
       <Text fontSize="4xl">Hexlabs Users</Text>
@@ -84,7 +90,7 @@ const UserData: React.FC = () => {
         data of each unique user in our array. This is a really important concept that we use a lot so be sure to familiarize
         yourself with the syntax - compartmentalizing code makes your work so much more readable. */}
         { users.map((user) => (
-          <UserCard user={user} />
+          <UserCard user={user} getAppliedHexathons={getAppliedHexathons} />
         ))}
 
       </SimpleGrid>
