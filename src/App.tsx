@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { setPersistence, getAuth, inMemoryPersistence } from "firebase/auth";
-import { useLogin, LoadingScreen, AuthProvider } from "@hex-labs/core";
+import { useLogin, LoadingScreen, AuthProvider, Footer } from "@hex-labs/core";
 
 import UserData from './components/UserData';
 
@@ -57,6 +57,9 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<UserData />} />
       </Routes>
+
+      {/* HexLabs footer shown at the bottom of every page */}
+      <Footer />
 
     </AuthProvider>
   );
