@@ -75,8 +75,28 @@ const UserData: React.FC = () => {
 
   // Returns the hexathons a user has applied to. Passed down to each UserCard's modal.
   const getAppliedHexathons = async (userId: string): Promise<any[]> => {
-    // TODO: fetch from the /hexathons and /applications endpoints
-    return [];
+    // 1. Get every hexathon
+    const hexathonsRes = await axios.get(apiUrl(Service.HEXATHONS, "/hexathons"));
+
+    // 2. /applications requires a hexathon filter, so check each hexathon for an
+    //    application from this user. Promise.all runs the requests in parallel.
+    const results = await Promise.all(
+      hexathonsRes.data.map(async (hexathon: any) => {
+        const appsRes = await axios.get(apiUrl(Service.REGISTRATION, "/applications"), {
+          params: { hexathon: hexathon.id ?? hexathon._id, userId },
+        });
+        // Response shape: { offset, total, count, applications: [...] }
+        // For non-members the server replaces userId with the viewer's own ID, so only
+        // count applications that actually belong to this user.
+        const userApps = appsRes.data.applications.filter(
+          (app: any) => app.userId === userId
+        );
+        return userApps.length > 0 ? hexathon : null;
+      })
+    );
+
+    // 3. Keep only the hexathons that had an application
+    return results.filter((hexathon) => hexathon !== null);
   };
 
   return (
