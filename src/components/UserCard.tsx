@@ -3,8 +3,10 @@ import {
   Flex,
   HStack,
   Text,
+  useDisclosure
 } from "@chakra-ui/react";
 import React from "react";
+import UserModal from "./UserModal";
 
 type Props = {
   user: any;
@@ -25,7 +27,10 @@ type Props = {
 
 const UserCard: React.FC<Props> = (props: Props) => {
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
+    <>
     <Box
     borderWidth="1px"
     rounded="lg"
@@ -33,6 +38,8 @@ const UserCard: React.FC<Props> = (props: Props) => {
     height="175px"
     fontWeight="bold"
     alignItems="center"
+    onClick={onOpen}
+    cursor="pointer"
     >
       <Flex padding="2" flexDirection="column">
         <HStack align="flex-end" justify="space-between">
@@ -48,6 +55,8 @@ const UserCard: React.FC<Props> = (props: Props) => {
         </Text>
       </Flex>
     </Box>
+    <UserModal user={props.user} isOpen={isOpen} onClose={onClose} />
+    </>
   );
 };
 
