@@ -7,7 +7,9 @@ import {
   ModalCloseButton,
   ModalBody,
   Text,
+  Link
 } from "@chakra-ui/react";
+import { apiUrl, Service } from "@hex-labs/core"
 
 type Props = {
   user: any;
@@ -23,7 +25,12 @@ const UserModal: React.FC<Props> = ({ user, isOpen, onClose }) => {
         <ModalHeader>{`${user.name.first} ${user.name.last}`}</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          <Text><b>Email:</b> {user.email}</Text>
+        <Text>
+            <b>Email:</b>{" "}
+            <Link href={`mailto:${user.email}`} color="blue.500">
+              {user.email}
+            </Link>
+          </Text>
           <Text><b>Phone:</b> {user.phoneNumber ?? "N/A"}</Text>
           <Text><b>User ID:</b> {user.userId}</Text>
         </ModalBody>
