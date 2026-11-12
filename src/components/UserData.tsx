@@ -73,6 +73,32 @@ const UserData: React.FC = () => {
   };
 
 
+  // Returns the hexathons a user has applied to. Passed down to each UserCard's modal.
+  const getAppliedHexathons = async (userId: string): Promise<any[]> => {
+    // 1. Get every hexathon
+    const hexathonsRes = await axios.get(apiUrl(Service.HEXATHONS, "/hexathons"));
+
+    // 2. /applications requires a hexathon filter, so check each hexathon for an
+    //    application from this user. Promise.all runs the requests in parallel.
+    const results = await Promise.all(
+      hexathonsRes.data.map(async (hexathon: any) => {
+        const appsRes = await axios.get(apiUrl(Service.REGISTRATION, "/applications"), {
+          params: { hexathon: hexathon.id ?? hexathon._id, userId },
+        });
+        // Response shape: { offset, total, count, applications: [...] }
+        // For non-members the server replaces userId with the viewer's own ID, so only
+        // count applications that actually belong to this user.
+        const userApps = appsRes.data.applications.filter(
+          (app: any) => app.userId === userId
+        );
+        return userApps.length > 0 ? hexathon : null;
+      })
+    );
+
+    // 3. Keep only the hexathons that had an application
+    return results.filter((hexathon) => hexathon !== null);
+  };
+
   return (
     <>
       <Text fontSize="4xl">Hexlabs Users</Text>
@@ -84,7 +110,7 @@ const UserData: React.FC = () => {
         data of each unique user in our array. This is a really important concept that we use a lot so be sure to familiarize
         yourself with the syntax - compartmentalizing code makes your work so much more readable. */}
         { users.map((user) => (
-          <UserCard user={user} />
+          <UserCard user={user} getAppliedHexathons={getAppliedHexathons} />
         ))}
 
       </SimpleGrid>

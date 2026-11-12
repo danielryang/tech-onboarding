@@ -10,6 +10,7 @@ import UserModal from "./UserModal";
 
 type Props = {
   user: any;
+  getAppliedHexathons: (userId: string) => Promise<any[]>;
 };
 
 
@@ -55,7 +56,12 @@ const UserCard: React.FC<Props> = (props: Props) => {
         </Text>
       </Flex>
     </Box>
-    <UserModal user={props.user} isOpen={isOpen} onClose={onClose} />
+    <UserModal
+      user={props.user}
+      isOpen={isOpen}
+      onClose={onClose}
+      getAppliedHexathons={props.getAppliedHexathons}
+    />
     </>
   );
 };
