@@ -30,6 +30,9 @@ const UserData: React.FC = () => {
       // TODO: Use the apiUrl() function to make a request to the /users endpoint of our USERS service. The first argument is the URL
       // of the request, which is created for the hexlabs api through our custom function apiUrl(), which builds the request URL based on
       // the Service enum and the following specific endpoint URL.
+      const response = await axios.get(apiUrl(Service.USERS, '/users/hexlabs'));
+      console.log(response.data);
+      setUsers(response.data);
 
       // TODO: Also explore some of the other ways to configure the api call such as filtering and pagination.
       // Try to filter all the users with phone numbers starting with 470 or increase the amount of users returned from the default 50 (don't go above 100).
