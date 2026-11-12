@@ -1,11 +1,18 @@
 /* eslint-disable */
 import React from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { setPersistence, getAuth, inMemoryPersistence } from "firebase/auth";
-import { useLogin, LoadingScreen, AuthProvider, Footer } from "@hex-labs/core";
+import {
+  useLogin,
+  LoadingScreen,
+  AuthProvider,
+  Header,
+  HeaderItem,
+  Footer,
+} from "@hex-labs/core";
 
 import UserData from './components/UserData';
 
@@ -52,6 +59,13 @@ export const App = () => {
   // useAuth hook to retrieve the user's login details.
   return (
     <AuthProvider app={app}>
+
+      {/* HexLabs header shown at the top of every page; each HeaderItem is a nav link */}
+      <Header>
+        <HeaderItem>
+          <Link to="/">Users</Link>
+        </HeaderItem>
+      </Header>
 
       {/* Setting up our React Router to route to all the different pages we may have */}
       <Routes>
