@@ -50,7 +50,7 @@ const UserData: React.FC = () => {
       // the raw request response and extracts the actual data that we need from it.
 
       // data.data is an array, so there is no .profiles property.
-      // setUsers(data?.data);
+      setUsers(data?.data);
     };
     document.title = "Hexlabs Users"
     getUsers();
