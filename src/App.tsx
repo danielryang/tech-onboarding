@@ -15,7 +15,7 @@ import UserData from './components/UserData';
 
 // Initialized the Firebase app through the credentials provided
 export const app = initializeApp({
-  apiKey: "AIzaSyCsukUZtMkI5FD_etGfefO4Sr7fHkZM7Rg",
+  apiKey: "AIzaSyB6-uF9OFtITWqFMqrvNiPVmBODAZ_IBXk",
   authDomain: "auth.hexlabs.org",
 });
 
@@ -40,7 +40,11 @@ export const App = () => {
   // If the user is not logged in, redirect to the login frontend with a redirect
   // param so that the user can login and come back to the page they were on.
   if (!loggedIn) {
-    window.location.href = `https://login.hexlabs.org?redirect=${window.location.href}`;
+    // Strip any stale idToken and encode the redirect so failed logins don't
+    // keep stacking "?idToken=..." onto the URL (which ends in a 431 error).
+    const redirectUrl = new URL(window.location.href);
+    redirectUrl.searchParams.delete("idToken");
+    window.location.href = `https://login.hexlabs.org?redirect=${encodeURIComponent(redirectUrl.toString())}`;
     return <LoadingScreen />;
   }
 
